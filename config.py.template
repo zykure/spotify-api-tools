@@ -1,0 +1,53 @@
+# Client credentials for the Spotify API - ** DO NOT SHARE! **
+
+CLIENT_ID       = 'your-client-id'
+CLIENT_SECRET   = 'your-client-secret'
+REDIRECT_URI    = 'https://example.com/callback/'
+
+# Artist id for King Gizzard & The Lizard Wizard
+
+ARTIST_ID       = '6XYvaoDGE0VmRt83Jss9Sn'
+
+# Playlist definitions with sort and filter functions.
+# These playlists must be writable by the API user!
+#
+# Note: The audio features interface includes the following variables:
+# danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms, time_signature
+
+PLAYLIST_IDS    = {
+    # [readable name]                       ([spotify playlist id], [sort function], [filter function])
+    'sorted by title length (short-long)':  ('4Fm3fTvldydheuouigdQVw',
+                                             lambda track: len(track['name']),
+                                             None),
+    'sorted by length (short-long)':        ('4ru9WiNuN5LVJaJNXJ7CvO',
+                                             lambda track: track['duration_ms'],
+                                             None),
+    'sorted by tempo (slow-fast)':          ('5njQQJcFvVM48tieoQ99W0',
+                                             lambda track: track['features'][0]['tempo'],
+                                             None),
+    'sorted by energy (high-low)':          ('26OQod40BW1p69if4776hH',
+                                             lambda track: -1*track['features'][0]['energy'],
+                                             None),
+    'sorted by danceability (high-low)':    ('6tfsJxXX6tPGucUusxfG3e',
+                                             lambda track: -1*track['features'][0]['danceability'],
+                                             None),
+    'sorted by speechiness (high-low)':     ('5sLPslKyEtU5BHRGyjK6LL',
+                                             lambda track: -1*track['features'][0]['speechiness'],
+                                             None),
+    'odd time signatures only':             ('69xEoN4LTBDBs62r9pBPI1',
+                                             None,
+                                             lambda track: track['features'][0]['time_signature'] != 4),
+}
+
+# List of words that should not appear in album/track titles. Such content will be skipped.
+
+BLACKLIST_WORDS = [
+    'Live',
+    'Extended Mix',
+    'Butterfly 3001',  # Remix album
+    'Live In San Francisco',  # Live album
+]
+
+# Local cache paths, holds JSON files to minimize API usage. Remove files to force update.
+
+CACHE_PATH = 'local-cache'
